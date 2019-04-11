@@ -1,0 +1,15 @@
+:local(.actionBtn) {
+    padding: 1px 4px !important;
+}
+
+:local(.actionBtnGroup) {
+    &:not(:last-child) {
+        margin-right: 4px;
+    }
+}
+
+:local(.dataGridRow) {
+    a {
+        display: block;
+    }
+}

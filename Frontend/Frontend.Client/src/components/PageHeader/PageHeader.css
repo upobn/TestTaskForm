@@ -1,0 +1,9 @@
+:local(.pageHeader) {
+  margin-bottom: 1em;
+  border-bottom: 1px solid #eee; }
+  :local(.pageHeader) small {
+    display: block; }
+  @media screen and (min-width: 768px) {
+    :local(.pageHeader) small {
+      display: inline;
+      margin-left: 0.5em; } }

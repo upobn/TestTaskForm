@@ -1,0 +1,12 @@
+:local(.contextMenu) .dropdown-item {
+  display: flex;
+  flex-direction: row; }
+  :local(.contextMenu) .dropdown-item :local(.icon) {
+    align-self: flex-start;
+    min-width: 1em;
+    max-width: 1em;
+    margin-right: 6px;
+    display: inline-block; }
+  :local(.contextMenu) .dropdown-item :local(.text) {
+    justify-self: stretch;
+    display: inline-block; }
