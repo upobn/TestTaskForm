@@ -3,7 +3,7 @@ import * as fa from '../../../components/icons';
 import * as ui from '../../../components';
 import { Action } from 'redux';
 import { IState } from '../reducers';
-import { IIssuer } from '../../../api';
+import { ITestObject } from '../../../api';
 
 import { actions } from '../actions';
 import * as selectors from '../selectors';
@@ -16,7 +16,7 @@ const PAGE_SIZE = 10;
 interface IStateProps {
     inProgress?: boolean | null;
     error?: string | null;
-    items: IIssuer[];
+    items: ITestObject[];
     page: number;
     pageSize: number;
     totalCount: number;
@@ -54,44 +54,44 @@ const mapDispatchToProps: IDispatchProps = {
     fetch: actions.table.fetch.init
 };
 
-type IIssuersPageProps = IStateProps & IDispatchProps & IRouterProps;
+type ITestObjectsPageProps = IStateProps & IDispatchProps & IRouterProps;
 
-interface IIssuersPageState {
-    uploadIssuer: IIssuer | null;
-    deleteIssuer: IIssuer | null;
+interface ITestObjectsPageState {
+    uploadTestObject: ITestObject | null;
+    deleteTestObject: ITestObject | null;
 }
 
-export class IssuerTablePage extends React.Component<IIssuersPageProps, IIssuersPageState> {
+export class TestObjectTablePage extends React.Component<ITestObjectsPageProps, ITestObjectsPageState> {
     private model: ui.IDataGridModel;
 
     constructor(props: any) {
         super(props);
         this.state = {
-            uploadIssuer: null,
-            deleteIssuer: null
+            uploadTestObject: null,
+            deleteTestObject: null
         };
 
         this.model = {
             columns: [
-                ui.DataGrid.column<IIssuer>('#', x => x.id ? x.id.toString() : null, true),
-                ui.DataGrid.column<IIssuer>('Активен', x => x.isActive ? (<fa.CheckSquareO />) : (<fa.SquareO />)),
-                ui.DataGrid.column<IIssuer>('Название (RU)', x => x.nameRu),
-                ui.DataGrid.column<IIssuer>('Описание (RU)', x => x.descrRu),
-                ui.DataGrid.column<IIssuer>('Название (EN)', x => x.nameEn),
-                ui.DataGrid.column<IIssuer>('Описание (EN)', x => x.descrEn),
-                ui.DataGrid.column<IIssuer>('Код', x => x.code),
-                ui.DataGrid.column<IIssuer>('Регион', x => x.region),
-                ui.DataGrid.column<IIssuer>('Сектор', x => x.sector),
+                ui.DataGrid.column<ITestObject>('#', x => x.id ? x.id.toString() : null, true),
+                // ui.DataGrid.column<ITestObject>('Активен', x => x.isActive ? (<fa.CheckSquareO />) : (<fa.SquareO />)),
+                // ui.DataGrid.column<ITestObject>('Название (RU)', x => x.nameRu),
+                // ui.DataGrid.column<ITestObject>('Описание (RU)', x => x.descrRu),
+                // ui.DataGrid.column<ITestObject>('Название (EN)', x => x.nameEn),
+                // ui.DataGrid.column<ITestObject>('Описание (EN)', x => x.descrEn),
+                // ui.DataGrid.column<ITestObject>('Код', x => x.code),
+                // ui.DataGrid.column<ITestObject>('Регион', x => x.region),
+                // ui.DataGrid.column<ITestObject>('Сектор', x => x.sector),
 
             ],
             actions: [
-                ui.DataGrid.action<IIssuer>('Просмотр', <fa.Eye />, (item) => { this.openViewPage(item); }),
-                ui.DataGrid.action<IIssuer>('Изменить эммитента', <fa.Edit />, (item) => { this.openEditPage(item); }),
-                ui.DataGrid.action<IIssuer>('Загрузить новый логотип', <fa.FolderOpen />, (item) => this.openUploadLogoDialog(item)),
-                ui.DataGrid.action<IIssuer>('Удалить эммитента', <fa.Trash />, (item) => this.openDeleteDialog(item), 'danger'),
+                ui.DataGrid.action<ITestObject>('Просмотр', <fa.Eye />, (item) => { this.openViewPage(item); }),
+                ui.DataGrid.action<ITestObject>('Изменить эммитента', <fa.Edit />, (item) => { this.openEditPage(item); }),
+                ui.DataGrid.action<ITestObject>('Загрузить новый логотип', <fa.FolderOpen />, (item) => this.openUploadLogoDialog(item)),
+                ui.DataGrid.action<ITestObject>('Удалить эммитента', <fa.Trash />, (item) => this.openDeleteDialog(item), 'danger'),
             ],
-            rowClass: (item: IIssuer) => item.isActive ? null : 'index-secondary',
-            rowLink: (item: IIssuer) => `/issuers/${item.id}`,
+            // rowClass: (item: ITestObject) => item.isActive ? null : 'index-secondary',
+            rowLink: (item: ITestObject) => `/testObjects/${item.id}`,
             actionMode: 'both'
         };
     }
@@ -100,13 +100,13 @@ export class IssuerTablePage extends React.Component<IIssuersPageProps, IIssuers
         this.refresh();
     }
 
-    componentDidUpdate(prevProps: Readonly<IIssuersPageProps>) {
+    componentDidUpdate(prevProps: Readonly<ITestObjectsPageProps>) {
         const { page: currentPage, pageSize: currentPageSize } = this.readQueryParams(prevProps);
         const { page: newPage, pageSize: newPageSize } = this.readQueryParams(this.props);
 
         // const hasRefreshFlag = !!this.props.location.query.refresh;
         // if(hasRefreshFlag) {
-        //     this.props.history.replace('/issuers');
+        //     this.props.history.replace('/testObjects');
         // }
 
         if (currentPage !== newPage || currentPageSize !== newPageSize) {
@@ -114,29 +114,29 @@ export class IssuerTablePage extends React.Component<IIssuersPageProps, IIssuers
         }
     }
 
-    openViewPage(issuer: IIssuer) {
-        this.props.history.push(`/issuers/${issuer.id}`);
+    openViewPage(testObject: ITestObject) {
+        this.props.history.push(`/testObjects/${testObject.id}`);
     }
 
-    openEditPage(issuer: IIssuer) {
-        this.props.history.push(`/issuers/${issuer.id}/edit`);
+    openEditPage(testObject: ITestObject) {
+        this.props.history.push(`/testObjects/${testObject.id}/edit`);
     }
 
-    openUploadLogoDialog(issuer: IIssuer) {
-        this.setState({ ...this.state, uploadIssuer: issuer });
+    openUploadLogoDialog(testObject: ITestObject) {
+        this.setState({ ...this.state, uploadTestObject: testObject });
     }
 
     closeUploadLogoDialog() {
-        this.setState({ ...this.state, uploadIssuer: null });
+        this.setState({ ...this.state, uploadTestObject: null });
     }
 
-    openDeleteDialog(issuer: IIssuer) {
-        this.setState({ ...this.state, deleteIssuer: issuer });
+    openDeleteDialog(testObject: ITestObject) {
+        this.setState({ ...this.state, deleteTestObject: testObject });
         if (this.props.clearDeletionState) { this.props.clearDeletionState() };
     }
 
     closeDeleteDialog() {
-        this.setState({ ...this.state, deleteIssuer: null });
+        this.setState({ ...this.state, deleteTestObject: null });
     }
 
     refresh() {
@@ -146,7 +146,7 @@ export class IssuerTablePage extends React.Component<IIssuersPageProps, IIssuers
          }
     }
 
-    readQueryParams(props: IIssuersPageProps): { page: number, pageSize: number } {
+    readQueryParams(props: ITestObjectsPageProps): { page: number, pageSize: number } {
         const query = props.location && props.location.query;
         let page = 0;
         let pageSize = PAGE_SIZE
@@ -168,8 +168,8 @@ export class IssuerTablePage extends React.Component<IIssuersPageProps, IIssuers
         const navigate = (p: number, ps?: number) => {
             ps = ps || PAGE_SIZE
             const url = ps === PAGE_SIZE
-                ? `/issuers?page=${p + 1}`
-                : `/issuers?page=${p + 1}&pageSize=${ps}`
+                ? `/testObjects?page=${p + 1}`
+                : `/testObjects?page=${p + 1}&pageSize=${ps}`
             this.props.history.push(url);
             if (this.props.fetch) { this.props.fetch(p, ps); }
         };
@@ -182,7 +182,7 @@ export class IssuerTablePage extends React.Component<IIssuersPageProps, IIssuers
 
                     <ui.ToolbarContainer>
                         <ui.Toolbar>
-                            <ui.ToolbarLinkButton text="Создать" icon={<fa.Plus />} to="/issuers/new" />
+                            <ui.ToolbarLinkButton text="Создать" icon={<fa.Plus />} to="/testObjects/new" />
                             <ui.ToolbarButton text="Обновить" icon={<fa.Refresh />} onClick={refresh} hotkey="Ctrl+R" />
                         </ui.Toolbar>
                         <ui.Toolbar>
@@ -193,16 +193,16 @@ export class IssuerTablePage extends React.Component<IIssuersPageProps, IIssuers
                     <ui.DataGrid model={this.model} data={items} />
 
                     {/* <UploadLogoDialog
-                        id={this.state.uploadIssuer ? this.state.uploadIssuer.id : null}
-                        name={this.state.uploadIssuer ? this.state.uploadIssuer.nameRu : null}
-                        isOpen={this.state.uploadIssuer != null}
+                        id={this.state.uploadTestObject ? this.state.uploadTestObject.id : null}
+                        name={this.state.uploadTestObject ? this.state.uploadTestObject.nameRu : null}
+                        isOpen={this.state.uploadTestObject != null}
                         onClosed={this.closeUploadLogoDialog} /> */}
                     {/* 
                     
-                    <DeleteIssuerDialog
-                        id={this.state.deleteIssuer ? this.state.deleteIssuer.id : null}
-                        name={this.state.deleteIssuer ?  this.state.deleteIssuer.nameRu : null}
-                        isOpen={this.state.deleteIssuer != null}
+                    <DeleteTestObjectDialog
+                        id={this.state.deleteTestObject ? this.state.deleteTestObject.id : null}
+                        name={this.state.deleteTestObject ?  this.state.deleteTestObject.nameRu : null}
+                        isOpen={this.state.deleteTestObject != null}
                         onClosed={this.closeDeleteDialog}
                     /> */}
 
@@ -212,4 +212,4 @@ export class IssuerTablePage extends React.Component<IIssuersPageProps, IIssuers
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(IssuerTablePage) as any);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TestObjectTablePage) as any);

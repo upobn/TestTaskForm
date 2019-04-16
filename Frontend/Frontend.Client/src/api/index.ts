@@ -1,3 +1,3 @@
 export * from './common';
 
-export * from './issuers';
+export * from './testObjects';

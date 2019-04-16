@@ -1,4 +1,4 @@
-import { IIssuer, IErrorResponse } from '../../../api';
+import { ITestObject, IErrorResponse } from '../../../api';
 import { Action } from 'redux';
 import { IFailAction, actionsSet } from '../../../api/base/actions';
 
@@ -14,22 +14,22 @@ export interface IFetchInitAction extends Action {
 }
 
 export interface IFetchDoneAction extends Action {
-    item: IIssuer;
+    item: ITestObject;
 }
 
 export interface ISaveInitAction extends Action {
     id: string;
-    item: IIssuer;
+    item: ITestObject;
 }
 
 export const actions = {
     fetch: {
         init: (id: string) => ({ type: ACTIONS.FETCH.INIT, id }) as IFetchInitAction,
-        done: (item: IIssuer) => ({ type: ACTIONS.FETCH.DONE, item }) as IFetchDoneAction,
+        done: (item: ITestObject) => ({ type: ACTIONS.FETCH.DONE, item }) as IFetchDoneAction,
         fail: (error: IErrorResponse) => ({ type: ACTIONS.FETCH.FAIL, error }) as IFailAction,
     },
     save: {
-        init: (id: string, item: IIssuer) => ({ type: ACTIONS.SAVE.INIT, id, item }) as ISaveInitAction,
+        init: (id: string, item: ITestObject) => ({ type: ACTIONS.SAVE.INIT, id, item }) as ISaveInitAction,
         done: () => ({ type: ACTIONS.SAVE.DONE }),
         fail: (error: IErrorResponse) => ({ type: ACTIONS.SAVE.FAIL, error }) as IFailAction,
     }

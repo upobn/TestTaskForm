@@ -4,9 +4,10 @@ import * as ui from '../../../components';
 import { Action } from 'redux';
 import { IState } from '../reducers';
 import { actions } from '../actions';
-import { IIssuer } from '../../../api';
+import { ITestObject, FieldId2Type, FieldId5Type, FieldId2Types, FieldId5Types } from '../../../api';
 import * as selectors from '../selectors';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 interface IStateProps {
     inProgress?: boolean | null;
@@ -14,7 +15,7 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-    save: (item: IIssuer) => Action;
+    save: (item: ITestObject) => Action;
     clearError?: () => Action;
 }
 
@@ -34,61 +35,27 @@ interface IInputState<T> {
     error?: string | null;
 }
 
-interface ICreateIssuerPageState {
-    isActive: IInputState<boolean>,
-    nameRu: IInputState<string>,
+interface ICreateTestObjectPageState {
+    id?: number;
+    fieldId1: IInputState<string>,
+    fieldId2Type: IInputState<FieldId2Type>,
+    fieldId3?: IInputState<moment.Moment>
+    fieldId4?: IInputState<boolean>,
+    fieldId5: IInputState<FieldId5Type>,
 
-    descriptionRu: IInputState<string>,
-    webSiteUrl: IInputState<string>,
 
-    region: IInputState<string>,
-    sector: IInputState<string>,
-    code: IInputState<string>,
-    descrEn: IInputState<string>,
-    nameEn: IInputState<string>,
 }
 
-export class CreateIssuerPage extends React.Component<IStateProps & IDispatchProps, ICreateIssuerPageState> {
+export class CreateTestObjectPage extends React.Component<IStateProps & IDispatchProps, ICreateTestObjectPageState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            isActive: {
-                value: false,
-                error: null
-            },
-            nameRu: {
-                value: "",
-                error: null
-            },
-            descriptionRu: {
-                value: "",
-                error: null
-            },
-            webSiteUrl: {
-                value: "",
-                error: null
-            },
 
-            region: {
-                value: "",
-                error: null
-            },
-            sector: {
-                value: "",
-                error: null
-            },
-            code: {
-                value: "",
-                error: null
-            },
-            descrEn: {
-                value: "",
-                error: null
-            },
-            nameEn: {
-                value: "",
-                error: null
-            },
+            fieldId1: {},
+            fieldId2Type: {},
+            fieldId3: {},
+            fieldId4: {},
+            fieldId5: {},
 
 
         };
@@ -97,27 +64,28 @@ export class CreateIssuerPage extends React.Component<IStateProps & IDispatchPro
     }
 
     save = () => {
-        if (this.state.isActive.error ||
-            this.state.nameRu.error ||
-            this.state.descriptionRu.error ||
-            this.state.webSiteUrl.error) {
-            return;
-        }
+        // if (this.state.isActive.error ||
+        //     this.state.nameRu.error ||
+        //     this.state.descriptionRu.error ||
+        //     this.state.webSiteUrl.error) {
+        //     return;
+        // }
 
-        const issuer: IIssuer = {
-            id: 0,
-            isActive: this.state.isActive.value,
-            nameRu: this.state.nameRu.value as string,
-            descrRu: this.state.descriptionRu.value as string,
-            websiteUrl: this.state.webSiteUrl.value as string,
-            region: this.state.region.value as string,
-            sector: this.state.sector.value as string,
-            code: this.state.code.value as string,
-            descrEn: this.state.descrEn.value as string,
-            nameEn: this.state.nameEn.value as string,
+        const testObject: ITestObject = {
+            // id: 0,
+
+            fieldId1: this.state.fieldId1.value as string,
+            fieldId2Type: this.state.fieldId2Type && this.state.fieldId2Type.value as FieldId2Type,
+            fieldId3: this.state.fieldId3 && this.state.fieldId3.value,
+            fieldId4: this.state.fieldId4 && this.state.fieldId4.value as boolean,
+            fieldId5: this.state.fieldId5.value as FieldId5Type,
+            // sector: this.state.sector.value as string,
+            // code: this.state.code.value as string,
+            // descrEn: this.state.descrEn.value as string,
+            // nameEn: this.state.nameEn.value as string,
 
         };
-        this.props.save(issuer);
+        this.props.save(testObject);
     }
 
     render() {
@@ -131,21 +99,17 @@ export class CreateIssuerPage extends React.Component<IStateProps & IDispatchPro
                     <ui.ToolbarContainer>
                         <ui.Toolbar>
                             <ui.ToolbarSubmitButton text="ОК" icon={<fa.Check />} />
-                            <ui.ToolbarLinkButton text="Отмена" icon={<fa.Times />} to="/Issuers" />
+                            <ui.ToolbarLinkButton text="Отмена" icon={<fa.Times />} to="/TestObjects" />
                         </ui.Toolbar>
                     </ui.ToolbarContainer>
 
                     <ui.InputFormArea>
 
-                        {this.isActiveInput()}
-                        {this.nameRuInput()}
-                        {this.descriptionRuInput()}
-                        {this.nameEnInput()}
-                        {this.descrEnInput()}
-                        {this.webSiteInput()}
-                        {this.regionInput()}
-                        {this.sectorInput()}
-                        {this.codeInput()}
+                        {this.fieldId1Input()}
+                        {this.fieldId2TypeInput()}
+                        {this.fieldId3Input()}
+                        {this.fieldId4Input()}
+                        {this.fieldId5Input()}
 
                     </ui.InputFormArea>
 
@@ -153,7 +117,8 @@ export class CreateIssuerPage extends React.Component<IStateProps & IDispatchPro
             </ui.InputForm>
         );
     }
-    nameEnInput() {
+
+    fieldId1Input() {
         const validate = (value: string) => {
             return !(value && value.trim()) ? 'Поле не может быть пустым' : null;
         }
@@ -163,171 +128,92 @@ export class CreateIssuerPage extends React.Component<IStateProps & IDispatchPro
                 value,
                 error: validate(value)
             };
-            this.setState({ ...this.state, nameEn: model });
+            this.setState({ ...this.state, fieldId1: model });
         }
 
         return (
-            <ui.InputFormText label="Название (EN)" value={this.state.nameEn.value} validate={validate} change={change} />
+            <ui.InputFormText label="fieldId1" value={this.state.fieldId1.value} validate={validate} change={change} />
         );
     }
 
-    descrEnInput() {
-        const validate = (value: string) => {
-            return !(value && value.trim()) ? 'Поле не может быть пустым' : null;
+    fieldId2TypeInput() {
+        const validate = (value: FieldId2Type) => {
+            return null;
         }
 
-        const change = (value: string) => {
-            const model: IInputState<string> = {
+        const change = (value: FieldId2Type) => {
+            const model: IInputState<FieldId2Type> = {
                 value,
                 error: validate(value)
             };
-            this.setState({ ...this.state, descrEn: model });
+            this.setState({ ...this.state, fieldId2Type: model });
         }
 
         return (
-            <ui.InputFormText label="Описание (EN)" value={this.state.descrEn.value} validate={validate} change={change} />
+            <ui.InputFormSelector label="nbg"
+                value={this.state.fieldId2Type.value}
+                items={FieldId2Types}
+                validate={validate}
+                change={change} />
         );
     }
 
-    codeInput() {
-        const validate = (value: string) => {
-            return !(value && value.trim()) ? 'Поле не может быть пустым' : null;
+    fieldId3Input() {
+        const validate = (value: moment.Moment) => {
+            return !(value) ? 'Поле не может быть пустым' : '';
         }
 
-        const change = (value: string) => {
-            const model: IInputState<string> = {
+        const change = (value: moment.Moment) => {
+            const model: IInputState<moment.Moment> = {
                 value,
                 error: validate(value)
             };
-            this.setState({ ...this.state, code: model });
+            this.setState({ ...this.state, fieldId3: model });
         }
-
+        const defaultDate = moment();
         return (
-            <ui.InputFormText label="Код" value={this.state.code.value} validate={validate} change={change} />
+            <ui.InputFormDate label="fieldId3" value={(this.state.fieldId3 && this.state.fieldId3.value) || defaultDate}
+                validate={validate} change={change} />
         );
     }
-
-    sectorInput() {
-        const validate = (value: string) => {
-            return !(value && value.trim()) ? 'Поле не может быть пустым' : null;
+    fieldId5Input() {
+        const validate = (value: FieldId5Type) => {
+            return null;
         }
 
-        const change = (value: string) => {
-            const model: IInputState<string> = {
+        const change = (value: FieldId5Type) => {
+            const model: IInputState<FieldId5Type> = {
                 value,
                 error: validate(value)
             };
-            this.setState({ ...this.state, sector: model });
+            this.setState({ ...this.state, fieldId5: model });
         }
 
         return (
-            <ui.InputFormText label="Сектор" value={this.state.sector.value} validate={validate} change={change} />
+            <ui.InputFormSelector label="nbg"
+                value={this.state.fieldId5.value}
+                items={FieldId5Types}
+                validate={validate}
+                change={change} />
         );
     }
 
-    regionInput() {
-        const validate = (value: string) => {
-            return !(value && value.trim()) ? 'Поле не может быть пустым' : null;
-        }
-
-        const change = (value: string) => {
-            const model: IInputState<string> = {
-                value,
-                error: validate(value)
-            };
-            this.setState({ ...this.state, region: model });
-        }
-
-        return (
-            <ui.InputFormText label="Регион" value={this.state.region.value} validate={validate} change={change} />
-        );
-    }
-
-    isActiveInput() {
-        const validate = (value: boolean) => {
-            return '';
-        }
+    fieldId4Input() {
+        // const validate = (value) => {
+        //     return null;
+        // }
 
         const change = (value: boolean) => {
             const model: IInputState<boolean> = {
                 value,
-                error: undefined
+                error: null
             };
-            this.setState({ ...this.state, isActive: model });
+            this.setState({ ...this.state, fieldId4: model });
         }
 
         return (
-            <ui.InputFormCheckbox label="Активен" value={this.state.isActive.value} change={change} validate={validate} />
-        );
-    }
-
-    nameRuInput() {
-        const validate = (value: string) => {
-            return !(value && value.trim()) ? 'Поле не может быть пустым' : null;
-        }
-
-        const change = (value: string) => {
-            const model: IInputState<string> = {
-                value,
-                error: validate(value)
-            };
-            this.setState({ ...this.state, nameRu: model });
-        }
-
-        return (
-            <ui.InputFormText label="Название (RU)" value={this.state.nameRu.value} validate={validate} change={change} />
-        );
-    }
-
-    descriptionRuInput() {
-        const validate = (value: string) => {
-            return !(value && value.trim()) ? 'Поле не может быть пустым' : null;
-        }
-
-        const change = (value: string) => {
-            const model: IInputState<string> = {
-                value,
-                error: validate(value)
-            };
-            this.setState({ ...this.state, descriptionRu: model });
-        }
-
-        return (
-            <ui.InputFormText label="Описание (RU)" value={this.state.descriptionRu.value} validate={validate} change={change} />
-        );
-    }
-
-    webSiteInput() {
-        const validate = (value: string) => {
-            value = value && value.trim()
-            if (!value) {
-                return 'Поле не может быть пустым';
-            }
-
-            try {
-                const url = new URL(value);
-                if (url.protocol !== 'http:' && url.protocol !== 'https:') {
-                    return 'Укажите URL с протоколом http/https';
-                }
-                return null;
-            } catch {
-                return 'Неправильный URL';
-            }
-
-        }
-
-        const change = (value: string) => {
-            const model: IInputState<string> = {
-                value,
-                error: validate(value)
-            };
-            this.setState({ ...this.state, webSiteUrl: model });
-        }
-
-        return (
-            <ui.InputFormText label="Веб-сайт" value={this.state.webSiteUrl.value} validate={validate} change={change} />
+            <ui.InputFormCheckbox label="fieldId3" value={this.state.fieldId4 && this.state.fieldId4.value} change={change} />
         );
     }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateIssuerPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTestObjectPage);

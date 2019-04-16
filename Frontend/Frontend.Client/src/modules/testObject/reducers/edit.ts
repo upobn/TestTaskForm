@@ -1,13 +1,13 @@
 import { ACTIONS, IFetchDoneAction } from '../actions/edit';
 import { Action } from 'redux';
-import { IIssuer, printErrorResponse } from '../../../api';
+import { ITestObject, printErrorResponse } from '../../../api';
 import { IFailAction } from '../../../api/base/actions';
 
 export interface IState {
     inProgress: boolean;
     saveError: string | null;
     fetchError: string | null;
-    item: IIssuer | null;
+    item: ITestObject | null;
 }
 
 export const initial: IState = {

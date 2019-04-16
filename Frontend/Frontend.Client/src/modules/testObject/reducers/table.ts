@@ -1,12 +1,12 @@
 import { ACTIONS, IFetchInitAction, IFetchDoneAction } from '../actions/table';
 import { Action } from 'redux';
-import { IIssuer, printErrorResponse } from '../../../api';
+import { ITestObject, printErrorResponse } from '../../../api';
 import { IFailAction } from '../../../api/base/actions';
 
 export interface IState {
     inProgress: boolean;
     error: string | null;
-    items: IIssuer[];
+    items: ITestObject[];
     page: number;
     pageSize: number;
     totalCount: number;

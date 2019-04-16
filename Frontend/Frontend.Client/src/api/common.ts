@@ -150,42 +150,42 @@ export function* httpExecute<T = any>(
         init.body = form;
     }
 
-    if (authorize) {
+    // if (authorize) {
 
-        const selector = (state: IState) => {
-            return {
+    //     const selector = (state: IState) => {
+    //         return {
                
-            };
-        };
-        while (true) {
-            const { isAuthorized, accessToken, authenticationScheme } = yield select(selector);
-            // if (!isAuthorized) {
-            //     yield put(actions.logout());
-            //     yield take(ACTIONS.LOGOUT);
-            //     continue;
-            // }
+    //         };
+    //     };
+    //     while (true) {
+    //         const { isAuthorized, accessToken, authenticationScheme } = yield select(selector);
+    //         // if (!isAuthorized) {
+    //         //     yield put(actions.logout());
+    //         //     yield take(ACTIONS.LOGOUT);
+    //         //     continue;
+    //         // }
 
-            init.headers.set('Authorization', `${authenticationScheme} ${accessToken}`);
+    //         init.headers.set('Authorization', `${authenticationScheme} ${accessToken}`);
 
-            try {
-                const response = yield call(fetchAndParse, url, init);
-                return response as T;
-            } catch (err) {
-                const error = err as IResponseStatus;
-                if (error.status === 401) {
-                    // yield put(actions.logout());
-                    // yield take(ACTIONS.LOGOUT);
-                    continue;
-                }
+    //         try {
+    //             const response = yield call(fetchAndParse, url, init);
+    //             return response as T;
+    //         } catch (err) {
+    //             const error = err as IResponseStatus;
+    //             if (error.status === 401) {
+    //                 // yield put(actions.logout());
+    //                 // yield take(ACTIONS.LOGOUT);
+    //                 continue;
+    //             }
 
-                throw err;
-            }
-        }
+    //             throw err;
+    //         }
+    //     }
 
-    } else {
+    // } else {
         const response = yield call(fetchAndParse, url, init);
         return response as T;
-    }
+    // }
 }
 
 export function* httpGet<T = any>(url: string, options?: IHttpExecuteOptions) {

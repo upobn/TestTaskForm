@@ -5,16 +5,16 @@ import { match, withRouter } from 'react-router';
 import { Action } from 'redux';
 import { IState } from '../reducers';
 import { actions } from '../actions';
-import { IIssuer, issuerLogoUrl } from '../../../api';
+import { ITestObject } from '../../../api';
 import * as selectors from '../selectors';
 import UploadLogoDialog from './logo';
-import DeleteIssuerDialog from './delete';
+import DeleteTestObjectDialog from './delete';
 import { connect } from 'react-redux';
 
 interface IStateProps {
     inProgress?: boolean | null;
     error?: string | null;
-    item?: IIssuer | null;
+    item?: ITestObject | null;
 }
 
 interface IDispatchProps {
@@ -40,12 +40,12 @@ const mapDispatchToProps: IDispatchProps = {
     clearUploadLogoState: actions.logo.clearState,
 };
 
-interface IViewIssuerPageState {
+interface IViewTestObjectPageState {
     isUploadOpen: boolean;
     isDeleteOpen: boolean;
 }
 
-export class ViewIssuerPage extends React.Component<IStateProps & IDispatchProps & IRouteProps, IViewIssuerPageState> {
+export class ViewTestObjectPage extends React.Component<IStateProps & IDispatchProps & IRouteProps, IViewTestObjectPageState> {
 
     constructor(props: any) {
         super(props);
@@ -80,8 +80,8 @@ export class ViewIssuerPage extends React.Component<IStateProps & IDispatchProps
 
                 <ui.ToolbarContainer>
                     <ui.Toolbar>
-                        <ui.ToolbarLinkButton text="Назад" icon={<fa.ArrowCircleLeft />} to="/issuers" />
-                        <ui.ToolbarLinkButton text="Изменить" icon={<fa.Edit />} to={`/issuers/${id}/edit`} />
+                        <ui.ToolbarLinkButton text="Назад" icon={<fa.ArrowCircleLeft />} to="/testObjects" />
+                        <ui.ToolbarLinkButton text="Изменить" icon={<fa.Edit />} to={`/testObjects/${id}/edit`} />
                         <ui.ToolbarButton text="Удалить" icon={<fa.Trash />} onClick={this.openDeleteDialog}
                             type="danger" />
                     </ui.Toolbar>
@@ -89,19 +89,7 @@ export class ViewIssuerPage extends React.Component<IStateProps & IDispatchProps
 
                 {this.renderForm()}
 
-                <UploadLogoDialog
-                    id={id}
-                    name={item && item.nameRu}
-                    isOpen={isUploadOpen}
-                    onClosed={this.closeUploadDialog} />
-
-
-                <DeleteIssuerDialog
-                    id={id}
-                    name={item && item.nameRu}
-                    isOpen={isDeleteOpen}
-                    onClosed={this.closeDeleteDialog}
-                />
+               
 
             </ui.PreloaderOverlay>
         );
@@ -138,9 +126,7 @@ export class ViewIssuerPage extends React.Component<IStateProps & IDispatchProps
         return (
             <div className="row">
                 <div className="col-sm-3">
-                    <a href="#" onClick={this.openUploadDialog} title="Загрузить логотип...">
-                        <img src={issuerLogoUrl(item.id ? item.id : -1)} className="img-thumbnail" alt="Логотип" />
-                    </a>
+                   
                     <button className="btn btn-outline-dark btn-sm mt-2" onClick={this.openUploadDialog} type="button">
                         <fa.FolderOpen />
                         Загрузить логотип...
@@ -149,24 +135,28 @@ export class ViewIssuerPage extends React.Component<IStateProps & IDispatchProps
                 <div className="col-sm-9">
                     <ui.ViewForm>
                         <ui.ViewFormItem label="ID" value={item.id} />
-                        <ui.ViewFormItem label="Активен" value={item.isActive} />
-                        <ui.ViewFormItem label="Название (RU)" value={item.nameRu} />
+                        <ui.ViewFormItem label="fieldId1" value={item.fieldId1} />
+
+                        <ui.ViewFormItem label="FieldId2Type" value={item.fieldId2Type} />
+                        
+                        <ui.ViewFormItem label="FieldId3" value={item.fieldId3} />
+                        {/* <ui.ViewFormItem label="Название (RU)" value={item.nameRu} />
                         <ui.ViewFormItem label="Описание (RU)" value={item.descrRu} />
                         <ui.ViewFormItem label="Название (EN)" value={item.nameEn} />
                         <ui.ViewFormItem label="Описание (EN)" value={item.descrEn} />
                         <ui.ViewFormItem label="Регион" value={item.region} />
                         <ui.ViewFormItem label="Сектор" value={item.sector} />
-                        <ui.ViewFormItem label="Код" value={item.code} />
+                        <ui.ViewFormItem label="Код" value={item.code} /> */}
 
-                        <ui.ViewFormItem label="Веб-сайт">
+                        {/* <ui.ViewFormItem label="Веб-сайт">
                             <a href={item.websiteUrl as string} target="_blank" className="btn btn-outline-primary">
                                 <fa.ExternalLink />
                                 {item.websiteUrl}
-                            </a>
+                            </a> */}
 
-                        </ui.ViewFormItem>
-                        <ui.ViewFormItem label="Создан" value={item.creationTime} dataType="datetime" />
-                        <ui.ViewFormItem label="Последнее изменение" value={item.lastChangeTime} dataType="datetime" />
+                        {/* </ui.ViewFormItem> */}
+                        {/* <ui.ViewFormItem label="Создан" value={item.creationTime} dataType="datetime" /> */}
+                        {/* <ui.ViewFormItem label="Последнее изменение" value={item.lastChangeTime} dataType="datetime" /> */}
                     </ui.ViewForm>
                     {/* <UploaderFiles mode={ModeOfUploaderFiles.SingleFile}
                                    openButtonText="Открыть договор аренды"
@@ -181,4 +171,4 @@ export class ViewIssuerPage extends React.Component<IStateProps & IDispatchProps
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewIssuerPage) as any);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ViewTestObjectPage) as any);
