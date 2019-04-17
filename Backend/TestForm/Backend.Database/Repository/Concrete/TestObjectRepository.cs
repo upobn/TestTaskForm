@@ -19,11 +19,11 @@ namespace Backend.Database.Repository.Concrete
 
 		public TestObject Create(TestObject testObject)
 		{
-			_db.TestObjects.Add(testObject);
+			var tstObj = (_db.TestObjects.Add(testObject)).Entity;
 
 			_db.SaveChanges();
 
-			return testObject;
+			return tstObj;
 		}
 
 		public IEnumerable<TestObject> Get(Func<TestObject, bool> predicate)
@@ -43,7 +43,7 @@ namespace Backend.Database.Repository.Concrete
 
 		public TestObject GetById(int id)
 		{
-			return _db.TestObjects.FirstOrDefault(e=>e.Id==id);
+			return _db.TestObjects.FirstOrDefault(e => e.Id == id);
 		}
 
 		public void Remove(TestObject Entity)

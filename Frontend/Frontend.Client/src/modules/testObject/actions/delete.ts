@@ -2,7 +2,7 @@ import { IErrorResponse } from '../../../api';
 import { Action } from 'redux';
 import { IFailAction, actionsSet } from '../../../actions';
 
-const prefix = 'ISSUERS';
+const prefix = 'TEST_OBJECTS';
 
 export const ACTIONS = {
     DELETE: actionsSet(prefix, 'DELETE'),

@@ -38,7 +38,7 @@ interface IInputState<T> {
 interface ICreateTestObjectPageState {
     id?: number;
     fieldId1: IInputState<string>,
-    fieldId2Type: IInputState<FieldId2Type>,
+    fieldId2: IInputState<FieldId2Type>,
     fieldId3?: IInputState<moment.Moment>
     fieldId4?: IInputState<boolean>,
     fieldId5: IInputState<FieldId5Type>,
@@ -52,7 +52,7 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
         this.state = {
 
             fieldId1: {},
-            fieldId2Type: {},
+            fieldId2: {},
             fieldId3: {},
             fieldId4: {},
             fieldId5: {},
@@ -75,7 +75,7 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
             // id: 0,
 
             fieldId1: this.state.fieldId1.value as string,
-            fieldId2Type: this.state.fieldId2Type && this.state.fieldId2Type.value as FieldId2Type,
+            fieldId2: this.state.fieldId2 && this.state.fieldId2.value as FieldId2Type,
             fieldId3: this.state.fieldId3 && this.state.fieldId3.value,
             fieldId4: this.state.fieldId4 && this.state.fieldId4.value as boolean,
             fieldId5: this.state.fieldId5.value as FieldId5Type,
@@ -106,7 +106,7 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
                     <ui.InputFormArea>
 
                         {this.fieldId1Input()}
-                        {this.fieldId2TypeInput()}
+                        {this.fieldId2Input()}
                         {this.fieldId3Input()}
                         {this.fieldId4Input()}
                         {this.fieldId5Input()}
@@ -136,7 +136,7 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
         );
     }
 
-    fieldId2TypeInput() {
+    fieldId2Input() {
         const validate = (value: FieldId2Type) => {
             return null;
         }
@@ -146,12 +146,12 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
                 value,
                 error: validate(value)
             };
-            this.setState({ ...this.state, fieldId2Type: model });
+            this.setState({ ...this.state, fieldId2: model });
         }
 
         return (
             <ui.InputFormSelector label="nbg"
-                value={this.state.fieldId2Type.value}
+                value={this.state.fieldId2.value}
                 items={FieldId2Types}
                 validate={validate}
                 change={change} />

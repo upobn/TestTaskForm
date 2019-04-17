@@ -11,6 +11,7 @@ export function* saveHandler(action: Action) {
         yield put(actions.save.done(testObject))
         yield put(push(`/testObjects/${testObject.id}`));
     } catch (e) {
+        console.log(e)
         yield put(actions.save.fail(e as IErrorResponse))
     }
 }

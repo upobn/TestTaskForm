@@ -126,7 +126,7 @@ interface IToolbarSubmitButtonState {
 
 export class ToolbarSubmitButton extends React.Component<IToolbarSubmitButtonProps, IToolbarSubmitButtonState> {
 
-    private ref: HTMLButtonElement = new HTMLButtonElement();
+    private ref: HTMLButtonElement = { } as HTMLButtonElement;
 
     constructor(props: Readonly<IToolbarSubmitButtonProps>) {
         super(props);

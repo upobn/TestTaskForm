@@ -13,10 +13,6 @@ export function view(state: any) {
     return moduleState(state).view;
 }
 
-export function logo(state: any) {
-    return moduleState(state).logo;
-}
-
 export function create(state: any) {
     return moduleState(state).create;
 }

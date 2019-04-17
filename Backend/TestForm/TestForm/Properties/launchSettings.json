@@ -19,8 +19,7 @@
 		},
     "TestForm": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/testObjects",
+   
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

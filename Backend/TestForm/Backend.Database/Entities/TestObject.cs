@@ -32,7 +32,7 @@ namespace Backend.Database.Entities
 		public bool? FieldId4 { get; set; }
 
 		[NotMapped]
-		public FieldId5Type? FieldId5 { get; set; }
+		public FieldId5Type FieldId5 { get; set; }
 
 		[Column("FieldId5_type"), Required]
 		public string FieldId5ToString

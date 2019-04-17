@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Backend.TestObjectService.Models.Abstract;
+using Backend.TestObjectService.Models.Concrete;
 using Backend.TestObjectService.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using TestForm.Common.Models.Query;
@@ -43,14 +44,14 @@ namespace TestForm.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Post([FromBody] ITestObjectModel testObjectModel)
+		public IActionResult Post([FromBody] TestObjectModel testObjectModel)
 		{
 			var createdTestObjectModel = _testObjectService.Create(testObjectModel);
 			return Ok(createdTestObjectModel);
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult Put(int id, [FromBody] ITestObjectModel testObjectModel)
+		public IActionResult Put(int id, [FromBody] TestObjectModel testObjectModel)
 		{
 			var updatedTestObjectModel = _testObjectService.Update(testObjectModel);
 			return Ok(updatedTestObjectModel);

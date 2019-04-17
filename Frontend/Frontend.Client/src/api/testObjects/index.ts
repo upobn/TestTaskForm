@@ -17,14 +17,15 @@ export const FieldId5Types: FieldId5Type[] = [FieldId5Type.Radio1, FieldId5Type.
 export interface ITestObject {
     id?: number;
     fieldId1: string | null;
-    fieldId2Type: FieldId2Type;
+    fieldId2: FieldId2Type;
     fieldId3?: moment.Moment;
     fieldId4?: boolean;
     fieldId5: FieldId5Type;
 }
 
 export function getTestObjects(page: number = 0, pageSize: number = 10) {
-    return httpGet<IPagedList<ITestObject>>(`/api/testObjects`);
+    const t = httpGet<IPagedList<ITestObject>>(`/api/testObjects`);
+    return t; 
 }
 
 export function getTestObject(id: string) {
@@ -39,22 +40,6 @@ export function editTestObject(id: string, testObject: ITestObject) {
     return httpPut(`/api/testObjects/${id}`, testObject);
 }
 
-export function testObjectLogoUrl(id: number): string {
-    return `/api/admin/testObjects/${id}/logo`;
-}
-
-export function uploadTestObjectLogo(id: number, buffer: Blob) {
-    return httpPut(`/api/testObjects/${id}/logo`, buffer, { json: false, multipart: true });
-}
-
 export function deleteTestObject(id: number) {
     return httpDelete(`/api/testObjects/${id}`);
-}
-
-export function createAgreement(id: number, buffer: Blob) {
-    return httpPost(`/api/testObjects/${id}/rentalAgreement`, buffer, { json: false, multipart: true });
-}
-
-export function editAgreement(id: number, buffer: Blob) {
-    return httpPut(`/api/testObjects/${id}/rentalAgreement`, buffer, { json: false, multipart: true });
 }

@@ -7,7 +7,6 @@ import { IState } from '../reducers';
 import { actions } from '../actions';
 import { ITestObject } from '../../../api';
 import * as selectors from '../selectors';
-import UploadLogoDialog from './logo';
 import DeleteTestObjectDialog from './delete';
 import { connect } from 'react-redux';
 
@@ -37,7 +36,6 @@ const mapStateToProps = (state: IState): IStateProps => {
 
 const mapDispatchToProps: IDispatchProps = {
     refresh: actions.view.fetch.init,
-    clearUploadLogoState: actions.logo.clearState,
 };
 
 interface IViewTestObjectPageState {
@@ -137,7 +135,7 @@ export class ViewTestObjectPage extends React.Component<IStateProps & IDispatchP
                         <ui.ViewFormItem label="ID" value={item.id} />
                         <ui.ViewFormItem label="fieldId1" value={item.fieldId1} />
 
-                        <ui.ViewFormItem label="FieldId2Type" value={item.fieldId2Type} />
+                        <ui.ViewFormItem label="FieldId2Type" value={item.fieldId2} />
                         
                         <ui.ViewFormItem label="FieldId3" value={item.fieldId3} />
                         {/* <ui.ViewFormItem label="Название (RU)" value={item.nameRu} />

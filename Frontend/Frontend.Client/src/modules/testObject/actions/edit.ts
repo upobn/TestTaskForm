@@ -2,7 +2,7 @@ import { ITestObject, IErrorResponse } from '../../../api';
 import { Action } from 'redux';
 import { IFailAction, actionsSet } from '../../../api/base/actions';
 
-const prefix = 'ISSUERS_EDIT';
+const prefix = 'TEST_OBJECTS_EDIT';
 
 export const ACTIONS = {
     FETCH: actionsSet(prefix, 'FETCH'),

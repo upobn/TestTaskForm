@@ -15,6 +15,6 @@ namespace Backend.TestObjectService.Models.Abstract
 
 		 bool? FieldId4 { get; set; }
 
-		 FieldId5Type? FieldId5 { get; set; }
+		 FieldId5Type FieldId5 { get; set; }
 	}
 }

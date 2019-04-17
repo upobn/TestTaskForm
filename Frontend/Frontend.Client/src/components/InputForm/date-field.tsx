@@ -1,7 +1,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import { IInputFormFieldProps, InputFormFieldWrapper } from './field';
-import * as moment from 'moment';
+import moment, { Moment } from 'moment';
 import { default as DatePicker } from 'react-datepicker'
 
 export interface IInputFormDateProps extends IInputFormFieldProps {
@@ -11,7 +11,7 @@ export interface IInputFormDateProps extends IInputFormFieldProps {
 }
 
 interface IInputFormDateState {
-    value: moment.Moment | null;
+    value: moment.Moment;
     error: string | null;
 }
 
@@ -23,7 +23,7 @@ export class InputFormDate extends React.Component<IInputFormDateProps, IInputFo
     constructor(props: IInputFormDateProps) {
         super(props);
 
-        const { value = null, validate = null } = props;
+        const { value = moment(), validate = null } = props;
         const error = validate && validate(value as moment.Moment);
 
         this.state = { value, error };
@@ -48,22 +48,24 @@ export class InputFormDate extends React.Component<IInputFormDateProps, IInputFo
         const { label, readonly = false, disabled = false, style } = this.props;
         const { value } = this.state;
         const error = this.state.error || this.props.error;
-
+      
         return (
             <InputFormFieldWrapper label={label} error={error} style={style}>
                 <DatePicker
                     className={cn('form-control', error ? 'is-invalid' : null)}
-                    dateFormat="D MMM YYYY"
-                    readOnly={readonly}
+                    dateFormat="dd MMM YYYY"
+                    readOnly={false}
                     disabled={disabled}
-                    selected={(value as moment.Moment).toDate()}
+                    selected={moment(value).toDate()}
                     onChange={this.onChange} />
             </InputFormFieldWrapper>
         );
     }
 
-    onChange(e: any) {
-        const value: moment.Moment = e.target.date;
+    onChange = (e: any) => {
+
+        const value = e;
+
         const { validate = null, change = null } = this.props;
         const error = validate && validate(value);
         if (change) {

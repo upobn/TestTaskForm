@@ -4,12 +4,12 @@ import { getTestObjects, ITestObject, IErrorResponse, IPagedList } from '../../.
 import { Action } from 'redux';
 
 export function* fetchHandler(action: Action) {
-    try {        
+    try {
         const { page, pageSize } = action as IFetchInitAction;
-        const result = yield call(getTestObjects, page, pageSize);
+        const result: IPagedList<ITestObject> = yield call(getTestObjects, page, pageSize);
         yield put(actions.fetch.done(result.items, result.totalCount))
     } catch (e) {
-         yield put(actions.fetch.fail(e as IErrorResponse))
+        yield put(actions.fetch.fail(e as IErrorResponse))
     }
 }
 
