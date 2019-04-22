@@ -34,14 +34,15 @@ namespace TestForm
 		public void ConfigureServices(IServiceCollection services)
 		{
 
+			services.AddCors();
+			
+			services.AddMemoryCache();
+			services.AddAutoMapper();
 			if (HostingEnvironment?.IsEnvironment("Testing") ?? false)
 			{
-
-
 				var connection = new SqliteConnection("DataSource=:memory:");
 				connection.Open();
 				services.AddDbContext<TestFormContext>(options => { options.UseSqlite(connection); });
-
 
 				services.BuildServiceProvider()
 					.GetRequiredService<TestFormContext>()
@@ -55,7 +56,6 @@ namespace TestForm
 
 			}
 
-			services.AddAutoMapper();
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			services.AddRepositories();
 
@@ -75,9 +75,13 @@ namespace TestForm
 				}
 			}
 		}
+
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
+			// Поддержка reverse proxy
+			app.UseForwardedHeaders();
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -87,9 +91,11 @@ namespace TestForm
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
-
-			UpdateDatabase(app);
-
+			if (!(HostingEnvironment?.IsEnvironment("Testing") ?? false))
+			{
+				UpdateDatabase(app);
+			}
+			
 			//app.UseHttpsRedirection();
 			app.UseMvc();
 		}
