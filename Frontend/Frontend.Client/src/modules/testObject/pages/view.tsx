@@ -7,7 +7,6 @@ import { IState } from '../reducers';
 import { actions } from '../actions';
 import { ITestObject } from '../../../api';
 import * as selectors from '../selectors';
-import DeleteTestObjectDialog from './delete';
 import { connect } from 'react-redux';
 
 interface IStateProps {
@@ -80,15 +79,9 @@ export class ViewTestObjectPage extends React.Component<IStateProps & IDispatchP
                     <ui.Toolbar>
                         <ui.ToolbarLinkButton text="Назад" icon={<fa.ArrowCircleLeft />} to="/testObjects" />
                         <ui.ToolbarLinkButton text="Изменить" icon={<fa.Edit />} to={`/testObjects/${id}/edit`} />
-                        <ui.ToolbarButton text="Удалить" icon={<fa.Trash />} onClick={this.openDeleteDialog}
-                            type="danger" />
                     </ui.Toolbar>
                 </ui.ToolbarContainer>
-
                 {this.renderForm()}
-
-
-
             </ui.PreloaderOverlay>
         );
     }
@@ -129,7 +122,7 @@ export class ViewTestObjectPage extends React.Component<IStateProps & IDispatchP
                         <ui.ViewFormItem label="fieldId1" value={item.fieldId1} />
                         <ui.ViewFormItem label="FieldId2Type" value={item.fieldId2} />
                         <ui.ViewFormItem label="FieldId3" value={item.fieldId3} />
-                        <ui.ViewFormItem label="FieldId4" value={item.fieldId4} />
+                        <ui.ViewFormItem label="FieldId4" value={item.fieldId4?'+':'-'} />
                         <ui.ViewFormItem label="FieldId5" value={item.fieldId5} />
                     </ui.ViewForm>
                 </div>

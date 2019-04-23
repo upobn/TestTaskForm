@@ -20,7 +20,3 @@ export function create(state: any) {
 export function edit(state: any) {
     return moduleState(state).edit;
 }
-
-export function del(state: any) {
-    return moduleState(state).delete;
-}

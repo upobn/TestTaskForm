@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { IRoute } from './routes';
-import HomePage from "../modules/home/HomePage";
+import HomePage from "../modules/testObject/pages/table";
 
 export interface IProps {
     routes: IRoute[]

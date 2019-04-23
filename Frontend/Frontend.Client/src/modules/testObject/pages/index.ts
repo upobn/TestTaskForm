@@ -1,5 +1,4 @@
 import { IRoute } from '../../module';
-
 import TestObjectsPage from './table';
 import CreateTestObjectPage from './create';
 import ViewTestObjectPage from './view';

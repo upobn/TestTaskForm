@@ -84,10 +84,8 @@ export class TestObjectTablePage extends React.Component<ITestObjectsPageProps, 
             actions: [
                 ui.DataGrid.action<ITestObject>('Просмотр', <fa.Eye />, (item) => { this.openViewPage(item); }),
                 ui.DataGrid.action<ITestObject>('Изменить testObjectа', <fa.Edit />, (item) => { this.openEditPage(item); }),
-                ui.DataGrid.action<ITestObject>('Удалить testObjectа', <fa.Trash />, (item) => this.openDeleteDialog(item), 'danger'),
-            ],
-            // rowClass: (item: ITestObject) => item.isActive ? null : 'index-secondary',
-            rowLink: (item: ITestObject) => `/testObjects/${item.id}`,
+             ],
+             rowLink: (item: ITestObject) => `/testObjects/${item.id}`,
             actionMode: 'both'
         };
     }
@@ -117,19 +115,9 @@ export class TestObjectTablePage extends React.Component<ITestObjectsPageProps, 
     openEditPage(testObject: ITestObject) {
         this.props.history.push(`/testObjects/${testObject.id}/edit`);
     }
+ 
 
-    openUploadLogoDialog(testObject: ITestObject) {
-        this.setState({ ...this.state, uploadTestObject: testObject });
-    }
-
-    closeUploadLogoDialog() {
-        this.setState({ ...this.state, uploadTestObject: null });
-    }
-
-    openDeleteDialog(testObject: ITestObject) {
-        this.setState({ ...this.state, deleteTestObject: testObject });
-        if (this.props.clearDeletionState) { this.props.clearDeletionState() };
-    }
+   
 
     closeDeleteDialog() {
         this.setState({ ...this.state, deleteTestObject: null });
@@ -188,19 +176,7 @@ export class TestObjectTablePage extends React.Component<ITestObjectsPageProps, 
 
                     <ui.DataGrid model={this.model} data={items} />
 
-                    {/* <UploadLogoDialog
-                        id={this.state.uploadTestObject ? this.state.uploadTestObject.id : null}
-                        name={this.state.uploadTestObject ? this.state.uploadTestObject.nameRu : null}
-                        isOpen={this.state.uploadTestObject != null}
-                        onClosed={this.closeUploadLogoDialog} /> */}
-                    {/* 
-                    
-                    <DeleteTestObjectDialog
-                        id={this.state.deleteTestObject ? this.state.deleteTestObject.id : null}
-                        name={this.state.deleteTestObject ?  this.state.deleteTestObject.nameRu : null}
-                        isOpen={this.state.deleteTestObject != null}
-                        onClosed={this.closeDeleteDialog}
-                    /> */}
+                   
 
                 </ui.PreloaderOverlay>
             </div >

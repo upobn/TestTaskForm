@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { IInputFormFieldProps, InputFormFieldWrapper } from './field';
 import moment, { Moment } from 'moment';
 import { default as DatePicker } from 'react-datepicker'
+import { Navbar } from 'react-bootstrap';
 
 export interface IInputFormDateProps extends IInputFormFieldProps {
     value: moment.Moment;
@@ -48,7 +49,7 @@ export class InputFormDate extends React.Component<IInputFormDateProps, IInputFo
         const { label, readonly = false, disabled = false, style } = this.props;
         const { value } = this.state;
         const error = this.state.error || this.props.error;
-      
+
         return (
             <InputFormFieldWrapper label={label} error={error} style={style}>
                 <DatePicker

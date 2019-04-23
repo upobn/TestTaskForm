@@ -1,7 +1,6 @@
 import { httpGet, httpPost, httpPut, httpDelete, IPagedList } from "../common";
 import * as moment from 'moment';
 
-
 export enum FieldId2Type {
     Type1 = 'TYPE1',
     Type2 = 'TYPE2',
@@ -24,7 +23,7 @@ export interface ITestObject {
 }
 
 export function getTestObjects(page: number = 0, pageSize: number = 10) {
-    const t = httpGet<IPagedList<ITestObject>>(`/api/testObjects`);
+    const t = httpGet<IPagedList<ITestObject>>(`/api/testObjects?page=${page}&pagesize=${pageSize}`);
     return t; 
 }
 
