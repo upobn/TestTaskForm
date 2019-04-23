@@ -4,27 +4,27 @@ using TestForm.Users.Models.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Backend.TestObjectService.Models.Concrete;
 
 namespace Backend.TestObjectService.Services.Abstract
 {
 	public interface ITestObjectService
 	{
-		ITestObjectModel GetById(int id);
+		TestObjectModel GetById(int id);
 
 
-		PagedQueryResult<ITestObjectModel> Get(TestObjectQueryParams testObjectQuery);
+		PagedQueryResult<TestObjectModel> Get(TestObjectQueryParams testObjectQuery);
 
 
-		IEnumerable<ITestObjectModel> GetAll(Func<ITestObjectModel, bool> predicate = null);
+		IEnumerable<TestObjectModel> GetAll(Func<TestObjectModel, bool> predicate = null);
 
 
-		ITestObjectModel Create(ITestObjectModel testObjectModel);
+		TestObjectModel Create(TestObjectModel testObjectModel);
 
 
-		ITestObjectModel Update(ITestObjectModel testObjectModel);
+		TestObjectModel Update(TestObjectModel testObjectModel, int id);
 
-
-		ITestObjectModel Remove(ITestObjectModel testObjectModel);
+		void Remove(int id);
 	}
 
 

@@ -11,6 +11,8 @@ namespace Backend.TestObjectService.Models.Concrete
 		public FieldId2Type FieldId2 { get; set; }
 		public DateTime? FieldId3 { get; set; }
 		public bool? FieldId4 { get; set; }
-		public FieldId5Type FieldId5 { get; set; }
+		public FieldId5Type FieldId5 {
+			get;
+			set; }
 	}
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Backend.Database.Entities
 {
-	public class TestObject 
+	public class TestObject
 	{
 		[Key]
 		public int Id { get; set; }
@@ -21,12 +21,8 @@ namespace Backend.Database.Entities
 			get => FieldId2.ToString().ToUpperInvariant();
 			set => FieldId2 = Enum.Parse<FieldId2Type>(value, true);
 		}
-			   
-
 
 		public DateTime? FieldId3 { get; set; }
-
-
 
 
 		public bool? FieldId4 { get; set; }

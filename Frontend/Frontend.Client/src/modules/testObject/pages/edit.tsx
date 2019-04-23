@@ -8,7 +8,8 @@ import { actions } from '../actions';
 import { ITestObject, FieldId2Type, FieldId5Type, FieldId2Types, FieldId5Types } from '../../../api';
 import * as selectors from '../selectors';
 import { connect } from 'react-redux';
-import  moment from 'moment';
+import moment from 'moment';
+import { MDBContainer, MDBInput } from 'mdbreact';
 
 interface IStateProps {
     inProgress?: boolean | null;
@@ -92,7 +93,7 @@ export class EditTestObjectPage extends React.Component<IStateProps & IDispatchP
         if (this.props.match) {
             const testObjectId = parseInt(this.props.match.params.id, undefined);
             const testObject: ITestObject = {
-                // id: testObjectId,
+                 id: testObjectId,
                 fieldId1: this.state.fieldId1.value as string,
                 fieldId2: this.state.fieldId2.value as FieldId2Type,
                 fieldId3: this.state.fieldId3 && this.state.fieldId3.value,
@@ -144,7 +145,7 @@ export class EditTestObjectPage extends React.Component<IStateProps & IDispatchP
         return (
             <ui.InputForm onSubmit={this.save}>
                 <ui.PreloaderOverlay inProgress={inProgress} error={saveError || fetchError}>
-                    <ui.PageHeader title="Эммитент" subtitle={`#${id}`} />
+                    <ui.PageHeader title="testObject" subtitle={`#${id}`} />
 
                     <ui.ToolbarContainer>
                         <ui.Toolbar>
@@ -155,22 +156,18 @@ export class EditTestObjectPage extends React.Component<IStateProps & IDispatchP
                     </ui.ToolbarContainer>
 
                     <ui.InputFormArea>
-
                         <ui.InputFormText label="ID" value={id.toString()} readonly={true} />
-
-
                         {this.fieldId1Input()}
                         {this.fieldId2Input()}
                         {this.fieldId3Input()}
                         {this.fieldId4Input()}
                         {this.fieldId5Input()}
-
-
                     </ui.InputFormArea>
                 </ui.PreloaderOverlay>
             </ui.InputForm>
         );
     }
+
 
     fieldId1Input() {
         const validate = (value: string) => {
@@ -191,24 +188,29 @@ export class EditTestObjectPage extends React.Component<IStateProps & IDispatchP
     }
 
     fieldId2Input() {
-        const validate = (value: FieldId2Type) => {
-            return null;
-        }
-
-        const change = (value: FieldId2Type) => {
+        const onClick = (value: any) => () => {
             const model: IInputState<FieldId2Type> = {
                 value,
-                error: validate(value)
+                error: null
             };
-            this.setState({ ...this.state, fieldId2: model });
+            this.setState({
+                ...this.state, fieldId2: model
+            });
         }
 
         return (
-            <ui.InputFormSelector label="nbg"
-                value={this.state.fieldId2.value}
-                items={FieldId2Types}
-                validate={validate}
-                change={change} />
+            < MDBContainer >
+                <MDBInput
+                    label={FieldId2Type.Type1} type="radio"
+                    checked={this.state.fieldId2.value === FieldId2Type.Type1}
+                    onClick={onClick(FieldId2Type.Type1)}
+                />
+                <MDBInput
+                    label={FieldId2Type.Type2} type="radio"
+                    checked={this.state.fieldId2.value === FieldId2Type.Type2}
+                    onClick={onClick(FieldId2Type.Type2)}
+                />
+            </MDBContainer >
         );
     }
 
@@ -218,15 +220,16 @@ export class EditTestObjectPage extends React.Component<IStateProps & IDispatchP
         }
 
         const change = (value: moment.Moment) => {
+            const val = (value || moment()) as moment.Moment
             const model: IInputState<moment.Moment> = {
-                value,
+                value: val,
                 error: validate(value)
             };
             this.setState({ ...this.state, fieldId3: model });
         }
-        const defaultDate = moment();
+
         return (
-            <ui.InputFormDate label="fieldId3" value={(this.state.fieldId3 && this.state.fieldId3.value) || defaultDate}
+            <ui.InputFormDate label="fieldId3" value={(this.state.fieldId3 && this.state.fieldId3.value) || moment()}
                 validate={validate} change={change} />
         );
     }

@@ -8,6 +8,7 @@ import { ITestObject, FieldId2Type, FieldId5Type, FieldId2Types, FieldId5Types }
 import * as selectors from '../selectors';
 import { connect } from 'react-redux';
 import moment from 'moment';
+ import { MDBContainer, MDBInput } from 'mdbreact';
 
 interface IStateProps {
     inProgress?: boolean | null;
@@ -51,38 +52,50 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
         super(props);
         this.state = {
 
-            fieldId1: {},
-            fieldId2: {},
-            fieldId3: {},
-            fieldId4: {},
-            fieldId5: {},
-
-
+            fieldId1:     {
+                value: '',
+                error: null
+            },  
+            fieldId2:  {
+                value: FieldId2Type.Type1,
+                error: null
+            },  
+            fieldId3: {
+                value: moment(),
+                error: null
+            },  
+            fieldId4: {
+                value: false,
+                error: null
+            },  
+            fieldId5:  {
+                value: FieldId5Type.Radio1,
+                error: null
+            },  
         };
 
         this.save = this.save.bind(this);
     }
 
     save = () => {
-        // if (this.state.isActive.error ||
-        //     this.state.nameRu.error ||
-        //     this.state.descriptionRu.error ||
-        //     this.state.webSiteUrl.error) {
-        //     return;
-        // }
+        if (this.state.fieldId1.error ||
+            this.state.fieldId2.error ||
+            (this.state.fieldId3 && this.state.fieldId3.error) ||
+            (this.state.fieldId4 && this.state.fieldId4.error) ||
+            this.state.fieldId5.error ||
+             !this.state.fieldId1.value) {
+            return;
+        }
 
         const testObject: ITestObject = {
             // id: 0,
 
             fieldId1: this.state.fieldId1.value as string,
-            fieldId2: this.state.fieldId2 && this.state.fieldId2.value as FieldId2Type,
+            fieldId2: this.state.fieldId2.value as FieldId2Type,
             fieldId3: this.state.fieldId3 && this.state.fieldId3.value,
             fieldId4: this.state.fieldId4 && this.state.fieldId4.value as boolean,
             fieldId5: this.state.fieldId5.value as FieldId5Type,
-            // sector: this.state.sector.value as string,
-            // code: this.state.code.value as string,
-            // descrEn: this.state.descrEn.value as string,
-            // nameEn: this.state.nameEn.value as string,
+
 
         };
         this.props.save(testObject);
@@ -94,7 +107,7 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
         return (
             <ui.InputForm onSubmit={this.save}>
                 <ui.PreloaderOverlay inProgress={inProgress} error={error} dismissError={clearError}>
-                    <ui.PageHeader title="Новый эммитент" />
+                    <ui.PageHeader title="Новый testObject" />
 
                     <ui.ToolbarContainer>
                         <ui.Toolbar>
@@ -137,24 +150,29 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
     }
 
     fieldId2Input() {
-        const validate = (value: FieldId2Type) => {
-            return null;
-        }
-
-        const change = (value: FieldId2Type) => {
+        const onClick = (value: any) => () => {
             const model: IInputState<FieldId2Type> = {
                 value,
-                error: validate(value)
+                error: null
             };
-            this.setState({ ...this.state, fieldId2: model });
+            this.setState({
+                ...this.state, fieldId2: model
+            });
         }
 
         return (
-            <ui.InputFormSelector label="nbg"
-                value={this.state.fieldId2.value}
-                items={FieldId2Types}
-                validate={validate}
-                change={change} />
+            < MDBContainer >
+                <MDBInput
+                    label={FieldId2Type.Type1} type="radio"
+                    checked={this.state.fieldId2.value === FieldId2Type.Type1}
+                    onClick={onClick(FieldId2Type.Type1)}
+                />
+                <MDBInput
+                    label={FieldId2Type.Type2} type="radio"
+                    checked={this.state.fieldId2.value === FieldId2Type.Type2}
+                    onClick={onClick(FieldId2Type.Type2)}
+                />
+            </MDBContainer >
         );
     }
 
@@ -164,15 +182,16 @@ export class CreateTestObjectPage extends React.Component<IStateProps & IDispatc
         }
 
         const change = (value: moment.Moment) => {
+            const val = (value || moment()) as moment.Moment
             const model: IInputState<moment.Moment> = {
-                value,
+                value: val,
                 error: validate(value)
             };
             this.setState({ ...this.state, fieldId3: model });
         }
-        const defaultDate = moment();
+
         return (
-            <ui.InputFormDate label="fieldId3" value={(this.state.fieldId3 && this.state.fieldId3.value) || defaultDate}
+            <ui.InputFormDate label="fieldId3" value={(this.state.fieldId3 && this.state.fieldId3.value) || moment()}
                 validate={validate} change={change} />
         );
     }

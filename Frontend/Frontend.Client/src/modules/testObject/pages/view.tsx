@@ -74,7 +74,7 @@ export class ViewTestObjectPage extends React.Component<IStateProps & IDispatchP
 
         return (
             <ui.PreloaderOverlay inProgress={inProgress} error={error}>
-                <ui.PageHeader title="Эммитент" subtitle={` #${id}`} />
+                <ui.PageHeader title="testObject" subtitle={` #${id}`} />
 
                 <ui.ToolbarContainer>
                     <ui.Toolbar>
@@ -87,7 +87,7 @@ export class ViewTestObjectPage extends React.Component<IStateProps & IDispatchP
 
                 {this.renderForm()}
 
-               
+
 
             </ui.PreloaderOverlay>
         );
@@ -123,46 +123,15 @@ export class ViewTestObjectPage extends React.Component<IStateProps & IDispatchP
 
         return (
             <div className="row">
-                <div className="col-sm-3">
-                   
-                    <button className="btn btn-outline-dark btn-sm mt-2" onClick={this.openUploadDialog} type="button">
-                        <fa.FolderOpen />
-                        Загрузить логотип...
-                    </button>
-                </div>
                 <div className="col-sm-9">
                     <ui.ViewForm>
                         <ui.ViewFormItem label="ID" value={item.id} />
                         <ui.ViewFormItem label="fieldId1" value={item.fieldId1} />
-
                         <ui.ViewFormItem label="FieldId2Type" value={item.fieldId2} />
-                        
                         <ui.ViewFormItem label="FieldId3" value={item.fieldId3} />
-                        {/* <ui.ViewFormItem label="Название (RU)" value={item.nameRu} />
-                        <ui.ViewFormItem label="Описание (RU)" value={item.descrRu} />
-                        <ui.ViewFormItem label="Название (EN)" value={item.nameEn} />
-                        <ui.ViewFormItem label="Описание (EN)" value={item.descrEn} />
-                        <ui.ViewFormItem label="Регион" value={item.region} />
-                        <ui.ViewFormItem label="Сектор" value={item.sector} />
-                        <ui.ViewFormItem label="Код" value={item.code} /> */}
-
-                        {/* <ui.ViewFormItem label="Веб-сайт">
-                            <a href={item.websiteUrl as string} target="_blank" className="btn btn-outline-primary">
-                                <fa.ExternalLink />
-                                {item.websiteUrl}
-                            </a> */}
-
-                        {/* </ui.ViewFormItem> */}
-                        {/* <ui.ViewFormItem label="Создан" value={item.creationTime} dataType="datetime" /> */}
-                        {/* <ui.ViewFormItem label="Последнее изменение" value={item.lastChangeTime} dataType="datetime" /> */}
+                        <ui.ViewFormItem label="FieldId4" value={item.fieldId4} />
+                        <ui.ViewFormItem label="FieldId5" value={item.fieldId5} />
                     </ui.ViewForm>
-                    {/* <UploaderFiles mode={ModeOfUploaderFiles.SingleFile}
-                                   openButtonText="Открыть договор аренды"
-                                   uploadButtonText="Загрузить договор аренды"
-                                   uploaderDialogHeader="Загрузка договора аренды"
-                                   acceptedTypes="application/pdf"
-                                   openFile={this.openRentalAgreement as IOpenFile}
-                                   saveFile={this.saveRentalAgreement}/> */}
                 </div>
             </div>
         );

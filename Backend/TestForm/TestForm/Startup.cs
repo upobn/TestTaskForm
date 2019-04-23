@@ -51,7 +51,7 @@ namespace TestForm
 			}
 			else
 			{
-				var connectionString = @"Server = (localdb)\mssqllocaldb; Database = MyDatabase; Trusted_Connection = True;";
+				var connectionString = @"Server = (localdb)\mssqllocaldb; Database = MyDatabase3; Trusted_Connection = True;";
 				services.AddDbContext<TestFormContext>(options => options.UseSqlServer(connectionString));
 
 			}

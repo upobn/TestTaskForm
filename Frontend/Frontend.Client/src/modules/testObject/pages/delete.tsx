@@ -53,10 +53,10 @@ export default class DeleteIssuerDialog extends React.Component<IStateProps & ID
             ) : null;
             body = (
                 <ui.ModalPreloaderOverlay inProgress={inProgress}>
-                    <ui.ModalHeader title="Удаление эммитента'" />
+                    <ui.ModalHeader title="Удаление testObjectа'" />
                     <ui.ModalBody>
                         <p>
-                            Подтвердите удаление эммитента <samp>#{id}</samp> {name}
+                            Подтвердите удаление testObjectа <samp>#{id}</samp> {name}
                         </p>
                         {errorView}
                     </ui.ModalBody>
@@ -73,7 +73,7 @@ export default class DeleteIssuerDialog extends React.Component<IStateProps & ID
                     <ui.ModalBody>
                         <strong>Готово!</strong>
                         <p>
-                            Эммитент <samp>#{id}</samp> {name} был удален
+                            testObject <samp>#{id}</samp> {name} был удален
                         </p>
                     </ui.ModalBody>
                     <ui.ModalFooter>

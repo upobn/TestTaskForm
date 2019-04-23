@@ -19,11 +19,20 @@ namespace Backend.Database.Repository.Concrete
 
 		public TestObject Create(TestObject testObject)
 		{
-			var tstObj = (_db.TestObjects.Add(testObject)).Entity;
+			var newTstObject = new TestObject
+			{
+				FieldId1 = testObject.FieldId1,
+				FieldId2 = testObject.FieldId2,
+				FieldId3 = testObject.FieldId3,
+				FieldId4 = testObject.FieldId4,
+				FieldId5 = testObject.FieldId5,
+			};
+
+			var res = (_db.TestObjects.Add(newTstObject)).Entity;
 
 			_db.SaveChanges();
 
-			return tstObj;
+			return res;
 		}
 
 		public IEnumerable<TestObject> Get(Func<TestObject, bool> predicate)
@@ -67,18 +76,14 @@ namespace Backend.Database.Repository.Concrete
 			{
 				throw new Exception(" нет такого Каляка баляка");
 			}
+					   			 
+			testObject.FieldId1 = Entity.FieldId1;
+			testObject.FieldId2 = Entity.FieldId2;
+			testObject.FieldId3 = Entity.FieldId3;
+			testObject.FieldId4 = Entity.FieldId4;
+			testObject.FieldId5 = Entity.FieldId5;
 
-			TestObject newTestObject = new TestObject
-			{
-				FieldId1 = testObject.FieldId1,
-				FieldId2 = testObject.FieldId2,
-				FieldId3 = testObject.FieldId3,
-				FieldId4 = testObject.FieldId4,
-
-				FieldId5 = testObject.FieldId5
-			};
-
-			_db.TestObjects.Update(newTestObject);
+			_db.TestObjects.Update(testObject);
 
 			_db.SaveChanges();
 		}

@@ -20,13 +20,13 @@ namespace Backend.IntegrationTests
 
 		private TestObjectModel TestObjectModel { get; } = new TestObjectModel
 		{
-			Id = 1,
+			Id =int.MinValue,
 			FieldId1 = "asdf",
 			FieldId2 = FieldId2Type.TYPE1,
 
 			FieldId3 = DateTime.UtcNow,
 			FieldId4 = false,
-			FieldId5 = FieldId5Type.RADIO1,
+			FieldId5 = FieldId5Type.RADIO2,
 		};
 
 		public TestObjectsControllerTest(WebApplicationFactoryCustom<Startup> factory)
@@ -76,7 +76,7 @@ namespace Backend.IntegrationTests
 			// GIVEN
 			var content = new StringContent(JsonConvert.SerializeObject(TestObjectModel), Encoding.UTF8, "application/json");
 			var firstTestObject = JsonConvert.DeserializeObject<TestObjectModel>(await (await Client.PostAsync("api/testObjects", content)).Content.ReadAsStringAsync());
-			await Client.PostAsync("api/testObjects", content);
+		 
 			var secondTestObject = JsonConvert.DeserializeObject<TestObjectModel>(await (await Client.PostAsync("api/testObjects", content)).Content.ReadAsStringAsync());
 
 			// WHEN
@@ -159,7 +159,7 @@ namespace Backend.IntegrationTests
 			// THEN
 			Assert.NotNull(result);
 			Assert.Equal(testObject.Id, result.Id);
-			Assert.NotEqual(FieldId1, result.FieldId1);
+			Assert.Equal(FieldId1, result.FieldId1);
 		}
 
 		[Fact]

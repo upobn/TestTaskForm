@@ -8,6 +8,7 @@ using TestForm.Users.Models.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Backend.TestObjectService.Models.Concrete;
 
 namespace Backend.TestObjectService.Services.Concrete
 {
@@ -22,44 +23,47 @@ namespace Backend.TestObjectService.Services.Concrete
 			_repository = repo;
 		}
 
-		public ITestObjectModel Create(ITestObjectModel testObjectModel)
+		public TestObjectModel Create(TestObjectModel testObjectModel)
 		{
-			var newtestObject = _repository.Create(_mapper.Map<ITestObjectModel, TestObject>(testObjectModel));
-			return _mapper.Map<TestObject, ITestObjectModel>(newtestObject);
+			var newtestObject = _repository.Create(_mapper.Map<TestObjectModel, TestObject>(testObjectModel));
+			return _mapper.Map<TestObject, TestObjectModel>(newtestObject);
 		}
 
-		public IEnumerable<ITestObjectModel> GetAll(Func<ITestObjectModel, bool> predicate = null)
+		public IEnumerable<TestObjectModel> GetAll(Func<TestObjectModel, bool> predicate = null)
 		{
-			return _repository.GetAll().Select(_mapper.Map<TestObject, ITestObjectModel>);
+			return _repository.GetAll().Select(_mapper.Map<TestObject, TestObjectModel>);
 		}
 
-		public ITestObjectModel GetById(int id)
+		public TestObjectModel GetById(int id)
 		{
 			var testObject = _repository.GetById(id);
-			return _mapper.Map<TestObject, ITestObjectModel>(testObject);
+			return _mapper.Map<TestObject, TestObjectModel>(testObject);
 		}
 
-		public PagedQueryResult<ITestObjectModel> Get(TestObjectQueryParams testObjectQuery)
+		public PagedQueryResult<TestObjectModel> Get(TestObjectQueryParams testObjectQuery)
 		{
 			var testObjects = _repository.GetAllQuerible();
 			if (testObjectQuery == null)
-				return QueryHelper.ExecutePageQuery(testObjects, null, _mapper.Map<TestObject, ITestObjectModel>);
+				return QueryHelper.ExecutePageQuery(testObjects, null, _mapper.Map<TestObject, TestObjectModel>);
 
-			return QueryHelper.ExecutePageQuery(testObjects, testObjectQuery, _mapper.Map<TestObject, ITestObjectModel>);
+			return QueryHelper.ExecutePageQuery(testObjects, testObjectQuery, _mapper.Map<TestObject, TestObjectModel>);
 		}
 
-		public ITestObjectModel Remove(ITestObjectModel testObjectModel)
+		public void Remove( int id)
 		{
-			_repository.Remove(_mapper.Map<ITestObjectModel, TestObject>(testObjectModel));
-			return testObjectModel;
-		}
+			var item=_repository.GetById(id);
+			 
+			_repository.Remove(  item )   ;
+ 		}
 
-		public ITestObjectModel Update(ITestObjectModel testObjectModel)
+		public TestObjectModel Update(TestObjectModel testObjectModel, int id)
 		{
-			var testObject = _mapper.Map<ITestObjectModel, TestObject>(testObjectModel);
+		 
+			var testObject = _mapper.Map<TestObjectModel, TestObject>(testObjectModel);
+			 _repository.Update(testObject);
 
-			_repository.Update(testObject);
-			return testObjectModel;
+			var res = _mapper.Map<TestObject , TestObjectModel>(_repository.GetById(id));
+			return res;
 		}
 	}
 }

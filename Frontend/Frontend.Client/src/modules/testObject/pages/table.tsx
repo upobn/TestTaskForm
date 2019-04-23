@@ -74,21 +74,17 @@ export class TestObjectTablePage extends React.Component<ITestObjectsPageProps, 
         this.model = {
             columns: [
                 ui.DataGrid.column<ITestObject>('#', x => x.id ? x.id.toString() : null, true),
-                // ui.DataGrid.column<ITestObject>('Активен', x => x.isActive ? (<fa.CheckSquareO />) : (<fa.SquareO />)),
-                // ui.DataGrid.column<ITestObject>('Название (RU)', x => x.nameRu),
-                // ui.DataGrid.column<ITestObject>('Описание (RU)', x => x.descrRu),
-                // ui.DataGrid.column<ITestObject>('Название (EN)', x => x.nameEn),
-                // ui.DataGrid.column<ITestObject>('Описание (EN)', x => x.descrEn),
-                // ui.DataGrid.column<ITestObject>('Код', x => x.code),
-                // ui.DataGrid.column<ITestObject>('Регион', x => x.region),
-                // ui.DataGrid.column<ITestObject>('Сектор', x => x.sector),
+                ui.DataGrid.column<ITestObject>('fieldId1 ', x => x.fieldId1),
+                ui.DataGrid.column<ITestObject>('fieldId2', x => x.fieldId2),
+                ui.DataGrid.column<ITestObject>('fieldId3', x => x.fieldId3 as any),
+                ui.DataGrid.column<ITestObject>('fieldId4', x => x.fieldId4 ? '+' : '-'),
+                ui.DataGrid.column<ITestObject>('fieldId5', x => x.fieldId5),
 
             ],
             actions: [
                 ui.DataGrid.action<ITestObject>('Просмотр', <fa.Eye />, (item) => { this.openViewPage(item); }),
-                ui.DataGrid.action<ITestObject>('Изменить эммитента', <fa.Edit />, (item) => { this.openEditPage(item); }),
-                ui.DataGrid.action<ITestObject>('Загрузить новый логотип', <fa.FolderOpen />, (item) => this.openUploadLogoDialog(item)),
-                ui.DataGrid.action<ITestObject>('Удалить эммитента', <fa.Trash />, (item) => this.openDeleteDialog(item), 'danger'),
+                ui.DataGrid.action<ITestObject>('Изменить testObjectа', <fa.Edit />, (item) => { this.openEditPage(item); }),
+                ui.DataGrid.action<ITestObject>('Удалить testObjectа', <fa.Trash />, (item) => this.openDeleteDialog(item), 'danger'),
             ],
             // rowClass: (item: ITestObject) => item.isActive ? null : 'index-secondary',
             rowLink: (item: ITestObject) => `/testObjects/${item.id}`,
@@ -141,9 +137,9 @@ export class TestObjectTablePage extends React.Component<ITestObjectsPageProps, 
 
     refresh() {
         const { page, pageSize } = this.readQueryParams(this.props);
-        if (this.props.fetch) { 
+        if (this.props.fetch) {
             this.props.fetch(page, pageSize);
-         }
+        }
     }
 
     readQueryParams(props: ITestObjectsPageProps): { page: number, pageSize: number } {
@@ -176,7 +172,7 @@ export class TestObjectTablePage extends React.Component<ITestObjectsPageProps, 
 
         return (
             <div>
-                <ui.PageHeader title="Эммитенты" />
+                <ui.PageHeader title="testObjectы" />
 
                 <ui.PreloaderOverlay inProgress={inProgress} error={error} retry={refresh}>
 

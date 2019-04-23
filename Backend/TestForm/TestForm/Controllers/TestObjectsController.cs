@@ -21,7 +21,7 @@ namespace TestForm.Controllers
 		}
 
 		[HttpGet]
-		public PagedQueryResult<ITestObjectModel> Get([FromQuery] TestObjectQueryParams testObjectQuery)
+		public PagedQueryResult<TestObjectModel> Get([FromQuery] TestObjectQueryParams testObjectQuery)
 		{
 			var result = _testObjectService.Get(testObjectQuery);
 			return result;
@@ -53,16 +53,16 @@ namespace TestForm.Controllers
 		[HttpPut("{id}")]
 		public IActionResult Put(int id, [FromBody] TestObjectModel testObjectModel)
 		{
-			var updatedTestObjectModel = _testObjectService.Update(testObjectModel);
+			var updatedTestObjectModel = _testObjectService.Update(testObjectModel, id);
 			return Ok(updatedTestObjectModel);
 		}
 
 		[HttpDelete("{id}")]
 		public IActionResult Delete(int id)
 		{
-			var testObject = _testObjectService.GetById(id);
-			var removedTestObjectModel = _testObjectService.Remove(testObject);
-			return Ok(removedTestObjectModel);
+
+			_testObjectService.Remove(id);
+			return Ok();
 		}
 	}
 }

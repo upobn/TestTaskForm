@@ -10,7 +10,7 @@ namespace Backend.Database.Entities
 		[EnumMember(Value = "Radio1")]
 		RADIO1,
 
-		[EnumMember(Value = "Radio1")]
+		[EnumMember(Value = "Radio2")]
 		RADIO2,
 	}
 }
